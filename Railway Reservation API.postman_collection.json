@@ -1,0 +1,193 @@
+{
+	"info": {
+		"_postman_id": "66cb7741-0e05-4737-9899-cac5d91151e9",
+		"name": "Railway Reservation API",
+		"description": "📌 API Endpoints Documentation\n------------------------------\n\n1.Book a Ticket\n--------------------\n\n📍 **Endpoint: POST /api/v1/tickets/book**\n\nBooks a railway ticket for a passenger. The system automatically assigns the appropriate berth type based on availability and priority rules.\n\n🔹 Request Body Example (JSON)\n\n```json\n\n{\n    \"passenger\": {\n        \"name\": \"Alice Johnson\",\n        \"age\": 65,\n        \"gender\": \"F\",\n        \"is_child\": false\n    }\n}\n```\n✅ Response Example (Success)\n\n```json\n{\n    \"id\": 12,\n    \"status\": \"CONFIRMED\",\n    \"berth_type\": \"LOWER\",\n    \"passenger\": {\n        \"id\": 30,\n        \"name\": \"Alice Johnson\",\n        \"age\": 65,\n        \"gender\": \"F\",\n        \"is_child\": false\n    }\n}\n```\n❌ Response Example (No Tickets Available)\n\n```json\n{\n    \"error\": \"No tickets available\"\n}\n```\n\n2.Cancel a Ticket\n-------------------\n\n📍 **Endpoint: POST /api/v1/tickets/cancel/{ticketId}**\n\nCancels a previously booked ticket. If a Confirmed ticket is canceled, the system will upgrade the next RAC ticket to Confirmed, and the next Waitlist ticket to RAC.\n\n🔹 Path Parameter:\n\nticketId → The unique ID of the ticket to be canceled\n✅ Response Example (Success)\n\n```json\n{\n    \"message\": \"Ticket canceled successfully\"\n}\n```\n❌ Response Example (Ticket Not Found)\n\n```json\n{\n    \"error\": \"Ticket not found\"\n}\n```\n\n3.Get All Booked Tickets\n------------------------\n\n📍 **Endpoint: GET /api/v1/tickets/booked**\n\nRetrieves a list of all booked tickets, including details of Confirmed, RAC, and Waitlist passengers.\n\n✅ Response Example\n\n```json\n[\n    {\n        \"id\": 10,\n        \"status\": \"CONFIRMED\",\n        \"berth_type\": \"LOWER\",\n        \"passenger\": {\n            \"id\": 21,\n            \"name\": \"John Doe\",\n            \"age\": 60,\n            \"gender\": \"M\",\n            \"is_child\": false\n        }\n    },\n    {\n        \"id\": 11,\n        \"status\": \"RAC\",\n        \"berth_type\": \"SIDE-LOWER\",\n        \"passenger\": {\n            \"id\": 22,\n            \"name\": \"Jane Doe\",\n            \"age\": 40,\n            \"gender\": \"F\",\n            \"is_child\": false\n        }\n    }\n]\n```\n\n4.Get Available Tickets Count\n-------------\n\n📍 **Endpoint: GET /api/v1/tickets/available**\n\nReturns the number of available Confirmed, RAC, and Waitlist slots.\n\n✅ Response Example\n\n```json\n{\n    \"confirmed\": 10,\n    \"RAC\": 5,\n    \"waiting\": 2\n}\n```",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Access Token",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "railyway_admin",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "RaWa@Admin123#",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://127.0.0.1:8000/api/v1/token/"
+			},
+			"response": []
+		},
+		{
+			"name": "Token Refresh",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "refresh",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MjEzMDI1NSwiaWF0IjoxNzQyMDQzODU1LCJqdGkiOiIxMzIwMjg4OWEwMmQ0MmMyYmIyNzM1YzhlMDI4MTBhYyIsInVzZXIiOiJyYXllZXMifQ.pdkJlzGQgRLd__-_ZiTpJzaCGeIlWunh75kNSKXcyyE",
+							"type": "text"
+						}
+					]
+				},
+				"url": "http://127.0.0.1:8000/api/v1/token/refresh/"
+			},
+			"response": []
+		},
+		{
+			"name": "Book Ticket",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{railway_access_token}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"passenger\" : {\n        \"name\" : \"John Doe\",\n        \"age\"  : 25,\n        \"gender\": \"M\",\n        \"is_child\": false\n    },\n\t\"berth_type\" : \"UPPER\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/v1/tickets/book/"
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Ticket",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{railway_access_token}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
+				"url": "http://127.0.0.1:8000/api/v1/tickets/cancel/59/"
+			},
+			"response": []
+		},
+		{
+			"name": "Booked tickets",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{railway_access_token}}"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
+				"url": "http://127.0.0.1:8000/api/v1/tickets/booked/"
+			},
+			"response": []
+		},
+		{
+			"name": "Tickets Available",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{railway_access_token}}"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "file",
+					"file": {}
+				},
+				"url": "http://127.0.0.1:8000/api/v1/tickets/available/"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "railway_access_token",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQyMTEzOTU5LCJpYXQiOjE3NDIxMTIxNTksImp0aSI6ImNjNGU1NjIzMDIxMTRjZjFiZmI2YWM4NWZhOGYyY2JhIiwidXNlciI6InJhaWx5d2F5X2FkbWluIn0.PWuDDMQ_2EQ9NaYxTx6yLXDCF3mA5BZUdHYsjzq7Osc"
+		}
+	]
+}

@@ -1,0 +1,5 @@
+SITE_HOST=127.0.0.1:8000
+ALLOWED_HOSTS=localhost,127.0.0.1,
+SECRET_KEY=&x6*%$#bv1nor_x55-u9ew!(dl7p+hxl)ze_4mfn71)y$uflj$
+DEBUG=on
+DATABASE_URL=psql://postgres:postgres@railway_postgres:5432/railway_reserve
