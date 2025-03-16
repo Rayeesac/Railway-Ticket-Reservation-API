@@ -16,7 +16,7 @@ Down and Up Docker
 --------
 docker-compose -f docker-compose.yml down && docker-compose -f docker-compose.yml up -d
 
-📥 Download Postman Collection  
+Postman Collection  
 ----------------------
 [![Download Postman Collection](https://run.pstmn.io/button.svg)](https://www.postman.com/grey-equinox-143107/railway-reservation-api/collection/589ljuf/railway-reservation-api)
 
