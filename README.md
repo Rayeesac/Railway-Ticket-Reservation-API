@@ -18,7 +18,7 @@ docker-compose -f docker-compose.yml down && docker-compose -f docker-compose.ym
 
 📥 Download Postman Collection  
 ----------------------
-[![Download Postman Collection](https://img.shields.io/badge/Postman-Download-orange?style=for-the-badge&logo=postman)](https://github.com/Rayeesac/Railway-Ticket-Reservation-API/raw/main/Railway%20Reservation%20API.postman_collection.json)
+[![Download Postman Collection](https://run.pstmn.io/button.svg)](https://www.postman.com/grey-equinox-143107/railway-reservation-api/collection/589ljuf/railway-reservation-api)
 
 
 📌 API Endpoints Documentation
